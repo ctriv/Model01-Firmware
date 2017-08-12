@@ -1,4 +1,4 @@
-// -*- mode: c++ -*-
+// -*- mode: c++ -*z
 // Copyright 2016 Keyboardio, inc. <jesse@keyboard.io>
 // See "LICENSE" for license details
 
@@ -102,12 +102,10 @@ const macro_t *macroAction(uint8_t macroIndex, uint8_t keyState) {
     Macros.type(PSTR("Keyboardio Model 01 - Kaleidoscope "));
     Macros.type(PSTR(BUILD_INFORMATION));
   } else if (macroIndex == MACRO_ANY) {
-    static Key lastKey;
-    if (keyToggledOn(keyState))
-      lastKey.keyCode = Key_A.keyCode + (uint8_t)(millis() % 36);
-
-    if (keyIsPressed(keyState))
-      kaleidoscope::hid::pressKey(lastKey);
+    return MACRODOWN(
+        D(LeftControl), D(LeftGui), D(L),
+        U(L), U(LeftGui), U(LeftControl)
+    );
   }
   return MACRO_NONE;
 }
