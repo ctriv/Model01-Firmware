@@ -14,7 +14,6 @@
 #include "Kaleidoscope-LEDControl.h"
 #include "Kaleidoscope-Numlock.h"
 #include "Kaleidoscope.h"
-#include "layers.h"
 
 #include "LED-Off.h"
 #include "Kaleidoscope-LEDEffect-BootGreeting.h"
