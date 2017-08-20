@@ -1,4 +1,4 @@
-// -*- mode: c++ -*z
+ // -*- mode: c++ -*z
 // Copyright 2016 Keyboardio, inc. <jesse@keyboard.io>
 // See "LICENSE" for license details
 
@@ -12,6 +12,7 @@
 #include "Kaleidoscope-MouseKeys.h"
 #include "Kaleidoscope-Macros.h"
 #include "Kaleidoscope-LEDControl.h"
+
 #include "Kaleidoscope-Numlock.h"
 #include "Kaleidoscope.h"
 
@@ -24,6 +25,7 @@
 #include "Kaleidoscope-LED-Stalker.h"
 #include "Kaleidoscope-LED-AlphaSquare.h"
 #include "Kaleidoscope-Model01-TestMode.h"
+
 #include "Kaleidoscope-FPS.h"
 
 #define MACRO_VERSION_INFO 1
@@ -79,16 +81,16 @@ ___ \
     Macro_Any,       Key_6, Key_7, Key_8,     Key_9,      Key_0,         Key_ToggleNumlock, \
     Key_Enter,     Key_Y, Key_U, Key_I,     Key_O,      Key_P,         Key_Equals,       \
                    Key_H, Key_J, Key_K,     Key_L,      Key_Semicolon, Key_Quote,       \
-    ___,  Key_N, Key_M, Key_Comma, Key_Period, Key_Slash,     Key_Minus,       \
+    Key_ToggleFPS,  Key_N, Key_M, Key_Comma, Key_Period, Key_Slash,     Key_Minus,       \
     Key_RightShift, Key_LeftAlt, Key_Spacebar, Key_RightControl,                   \
     Key_Keymap1_Momentary \
 )
 
 #define FPS_MAP KEYMAP_STACKED ( \
-    ___,    Key_5,           Key_6,          Key_7,       Key_8,            Key_9,     Key_0, \
-    Key_1,  Key_2,           Key_3,          Key_4,     Key_FPS_reload,    ___,       Key_FPS_board, \
-    ___,  Key_FPS_crouch,  Key_FPS_left, Key_FPS_fwd,   Key_FPS_right,  Key_FPS_use1,      \
-    ___,  Key_FPS_zoom,      ___,        Key_FPS_bkwds, Key_FPS_use2,   Key_FPS_use3, Key_FPS_console, \
+    ___,    Key_5,           Key_6,          Key_7,          Key_8,            Key_9,     Key_0, \
+    ___,   Key_3,           Key_4,          Key_FPS_fwd,    Key_FPS_reload,    ___,       Key_FPS_board, \
+    Key_2,  Key_FPS_crouch,  Key_FPS_left, Key_FPS_bkwds,   Key_FPS_right,  Key_FPS_use1,      \
+    Key_1,  Key_FPS_zoom,      ___,            ___,         Key_FPS_use2,   Key_FPS_use3, Key_FPS_console, \
     Key_FPS_crouch, Key_FPS_jump, Key_FPS_walk, Key_FPS_run,         \
                           Key_FPS_run,     \
 \
