@@ -17,6 +17,7 @@
 #include "layers.h"
 
 #include "LED-Off.h"
+#include "Kaleidoscope-LEDEffect-BootGreeting.h"
 #include "Kaleidoscope-LEDEffect-SolidColor.h"
 #include "Kaleidoscope-LEDEffect-Breathe.h"
 #include "Kaleidoscope-LEDEffect-Chase.h"
@@ -44,7 +45,7 @@ Key_End,  Key_PrintScreen,  Key_Insert,  ___,        Key_mouseBtnM, Key_mouseWar
 Consumer_ScanPreviousTrack, Key_F6,                 Key_F7,                   Key_F8,                  Key_F9,          Key_F10,          Key_ToggleFPS, \
 Consumer_PlaySlashPause,    Consumer_ScanNextTrack, Key_LeftCurlyBracket,     Key_RightCurlyBracket,   Key_LeftBracket, Key_RightBracket, Key_F11, \
                             Key_LeftArrow,          Key_DownArrow,            Key_UpArrow,             Key_RightArrow,  ___,              Key_F12, \
-Key_Menu,                   Key_Mute,               Consumer_VolumeDecrement, Consumer_VolumeIncrement, ___,            Key_Backslash,    Key_Pipe, \
+Key_PcApplication,          Key_Mute,               Consumer_VolumeDecrement, Consumer_VolumeIncrement, ___,            Key_Backslash,    Key_Pipe, \
 Key_RightShift, Key_RightAlt, Key_Enter, Key_RightControl, \
 ___ \
 )
@@ -108,13 +109,13 @@ const Key keymaps[][ROWS][COLS] PROGMEM = {
   FPS_MAP
 };
 
-static LEDSolidColor solidRed(160, 0, 0);
-static LEDSolidColor solidOrange(140, 70, 0);
-static LEDSolidColor solidYellow(130, 100, 0);
-static LEDSolidColor solidGreen(0, 160, 0);
-static LEDSolidColor solidBlue(0, 70, 130);
-static LEDSolidColor solidIndigo(0, 0, 170);
-static LEDSolidColor solidViolet(130, 0, 120);
+static kaleidoscope::LEDSolidColor solidRed(160, 0, 0);
+static kaleidoscope::LEDSolidColor solidOrange(140, 70, 0);
+static kaleidoscope::LEDSolidColor solidYellow(130, 100, 0);
+static kaleidoscope::LEDSolidColor solidGreen(0, 160, 0);
+static kaleidoscope::LEDSolidColor solidBlue(0, 70, 130);
+static kaleidoscope::LEDSolidColor solidIndigo(0, 0, 170);
+static kaleidoscope::LEDSolidColor solidViolet(130, 0, 120);
 
 const macro_t *macroAction(uint8_t macroIndex, uint8_t keyState) {
   if (macroIndex == TOGGLENUMLOCK && keyToggledOn(keyState)) {
@@ -139,20 +140,20 @@ const macro_t *macroAction(uint8_t macroIndex, uint8_t keyState) {
 void setup() {
   Kaleidoscope.setup(KEYMAP_SIZE);
   BootKeyboard.begin();
-  Kaleidoscope.use(&TestMode,
-                   &LEDControl, &LEDOff,
-                   &LEDRainbowEffect, &LEDRainbowWaveEffect, &LEDChaseEffect,
-                   &solidRed, &solidOrange, &solidYellow, &solidGreen, &solidBlue, &solidIndigo, &solidViolet,
-                   &LEDBreatheEffect,
-                   &AlphaSquareEffect,
-                   &StalkerEffect,
-                   &NumLock,
-
-                   &FPS,
-
-                   &Macros,
-                   &MouseKeys,
-                   NULL);
+  Kaleidoscope.use(
+    &BootGreetingEffect,
+    &TestMode,
+    &LEDControl, &LEDOff,
+    &LEDRainbowEffect, &LEDRainbowWaveEffect, &LEDChaseEffect,
+    &solidRed, &solidOrange, &solidYellow, &solidGreen, &solidBlue, &solidIndigo, &solidViolet,
+    &LEDBreatheEffect,
+    &AlphaSquareEffect,
+    &StalkerEffect,
+    &NumLock,
+    &Macros,
+    &MouseKeys,
+    &FPS,
+    NULL);
 
   NumLock.numPadLayer = NUMPAD_KEYMAP;
   FPS.FPSLayer = FPS_KEYMAP;
