@@ -14,6 +14,7 @@
 #include "Kaleidoscope-LEDControl.h"
 #include "Kaleidoscope-Numlock.h"
 #include "Kaleidoscope.h"
+#include "layers.h"
 
 #include "LED-Off.h"
 #include "Kaleidoscope-LEDEffect-SolidColor.h"
@@ -23,12 +24,14 @@
 #include "Kaleidoscope-LED-Stalker.h"
 #include "Kaleidoscope-LED-AlphaSquare.h"
 #include "Kaleidoscope-Model01-TestMode.h"
+#include "Kaleidoscope-FPS.h"
 
 #define MACRO_VERSION_INFO 1
 #define Macro_VersionInfo M(MACRO_VERSION_INFO)
 #define MACRO_ANY 2
 #define Macro_Any M(MACRO_ANY)
 #define NUMPAD_KEYMAP 2
+#define FPS_KEYMAP 3
 
 #define GENERIC_FN2  KEYMAP_STACKED ( \
 ___,      Key_F1,           Key_F2,      Key_F3,     Key_F4,        Key_F5,           XXX,         \
@@ -38,9 +41,9 @@ Key_End,  Key_PrintScreen,  Key_Insert,  ___,        Key_mouseBtnM, Key_mouseWar
                                             Key_LeftControl, Key_Delete, Key_LeftGui, Key_LeftShift,  \
                                                                 ___,   \
 \
-Consumer_ScanPreviousTrack, Key_F6,                 Key_F7,                   Key_F8,                  Key_F9,          Key_F10,          Key_F11, \
-Consumer_PlaySlashPause,    Consumer_ScanNextTrack, Key_LeftCurlyBracket,     Key_RightCurlyBracket,   Key_LeftBracket, Key_RightBracket, Key_F12, \
-                            Key_LeftArrow,          Key_DownArrow,            Key_UpArrow,             Key_RightArrow,  ___,              ___, \
+Consumer_ScanPreviousTrack, Key_F6,                 Key_F7,                   Key_F8,                  Key_F9,          Key_F10,          Key_ToggleFPS, \
+Consumer_PlaySlashPause,    Consumer_ScanNextTrack, Key_LeftCurlyBracket,     Key_RightCurlyBracket,   Key_LeftBracket, Key_RightBracket, Key_F11, \
+                            Key_LeftArrow,          Key_DownArrow,            Key_UpArrow,             Key_RightArrow,  ___,              Key_F12, \
 Key_Menu,                   Key_Mute,               Consumer_VolumeDecrement, Consumer_VolumeIncrement, ___,            Key_Backslash,    Key_Pipe, \
 Key_RightShift, Key_RightAlt, Key_Enter, Key_RightControl, \
 ___ \
@@ -76,15 +79,33 @@ ___ \
     Macro_Any,       Key_6, Key_7, Key_8,     Key_9,      Key_0,         Key_ToggleNumlock, \
     Key_Enter,     Key_Y, Key_U, Key_I,     Key_O,      Key_P,         Key_Equals,       \
                    Key_H, Key_J, Key_K,     Key_L,      Key_Semicolon, Key_Quote,       \
-    Key_RightAlt,  Key_N, Key_M, Key_Comma, Key_Period, Key_Slash,     Key_Minus,       \
+    ___,  Key_N, Key_M, Key_Comma, Key_Period, Key_Slash,     Key_Minus,       \
     Key_RightShift, Key_LeftAlt, Key_Spacebar, Key_RightControl,                   \
     Key_Keymap1_Momentary \
 )
 
+#define FPS_MAP KEYMAP_STACKED ( \
+    ___,    Key_5,           Key_6,          Key_7,       Key_8,            Key_9,     Key_0, \
+    Key_1,  Key_2,           Key_3,          Key_4,     Key_FPS_reload,    ___,       Key_FPS_board, \
+    ___,  Key_FPS_crouch,  Key_FPS_left, Key_FPS_fwd,   Key_FPS_right,  Key_FPS_use1,      \
+    ___,  Key_FPS_zoom,      ___,        Key_FPS_bkwds, Key_FPS_use2,   Key_FPS_use3, Key_FPS_console, \
+    Key_FPS_crouch, Key_FPS_jump, Key_FPS_walk, Key_FPS_run,         \
+                          Key_FPS_run,     \
+\
+    ___,       ___, ___, ___,     ___,      ___,         Key_ToggleFPS, \
+    ___,     ___, ___, ___,     ___,      ___,         ___,       \
+                   ___, ___, ___,     ___,      ___, ___,       \
+    ___,  ___, ___, ___, ___, ___,     ___,       \
+    ___, ___, ___, ___,                   \
+    ___ \
+)
+
+
 const Key keymaps[][ROWS][COLS] PROGMEM = {
   QWERTY,
   GENERIC_FN2,
-  NUMPAD
+  NUMPAD,
+  FPS_MAP
 };
 
 static LEDSolidColor solidRed(160, 0, 0);
@@ -98,6 +119,11 @@ static LEDSolidColor solidViolet(130, 0, 120);
 const macro_t *macroAction(uint8_t macroIndex, uint8_t keyState) {
   if (macroIndex == TOGGLENUMLOCK && keyToggledOn(keyState)) {
     return NumLock.toggle();
+  } else if (macroIndex == TOGGLEFPS && keyToggledOn(keyState)) {
+    // because we have this on function-num, we have to go back to the QWERTY
+    // layer before we toggle to the FPS layer
+    //Layer.previous();
+    return FPS.toggle();
   } else if (macroIndex == 1 && keyToggledOn(keyState)) {
     Macros.type(PSTR("Keyboardio Model 01 - Kaleidoscope "));
     Macros.type(PSTR(BUILD_INFORMATION));
@@ -122,11 +148,14 @@ void setup() {
                    &StalkerEffect,
                    &NumLock,
 
+                   &FPS,
+
                    &Macros,
                    &MouseKeys,
                    NULL);
 
   NumLock.numPadLayer = NUMPAD_KEYMAP;
+  FPS.FPSLayer = FPS_KEYMAP;
   AlphaSquare.color = { 255, 0, 0 };
   LEDRainbowEffect.brightness(150);
   LEDRainbowWaveEffect.brightness(150);
