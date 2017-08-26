@@ -87,10 +87,10 @@ ___ \
 )
 
 #define FPS_MAP KEYMAP_STACKED ( \
-    ___,    Key_5,           Key_6,          Key_7,          Key_8,            Key_9,     Key_0, \
-    ___,   Key_3,           Key_4,          Key_FPS_fwd,    Key_FPS_reload,    ___,       Key_FPS_board, \
-    Key_2,  Key_FPS_crouch,  Key_FPS_left, Key_FPS_bkwds,   Key_FPS_right,  Key_FPS_use1,      \
-    Key_1,  Key_FPS_zoom,      ___,            ___,         Key_FPS_use2,   Key_FPS_use3, Key_FPS_console, \
+    ___,    Key_5,           Key_6,          Key_7,          Key_8,          Key_9,          Key_0, \
+    ___,    Key_3,           Key_4,          Key_FPS_fwd,    Key_FPS_use1,   Key_FPS_reload, Key_FPS_board, \
+    Key_2,  Key_FPS_last_wp, Key_FPS_left,   Key_FPS_bkwds,  Key_FPS_right,  Key_FPS_use2,      \
+    Key_1,  Key_FPS_zoom,      ___,            ___,          ___,            Key_FPS_use3,   Key_FPS_console, \
     Key_FPS_crouch, Key_FPS_jump, Key_FPS_walk, Key_FPS_run,         \
                           Key_FPS_run,     \
 \
@@ -142,14 +142,16 @@ void setup() {
   Kaleidoscope.setup(KEYMAP_SIZE);
   BootKeyboard.begin();
   Kaleidoscope.use(
-    &BootGreetingEffect,
+    // &BootGreetingEffect,
     &TestMode,
     &LEDControl, &LEDOff,
-    &LEDRainbowEffect, &LEDRainbowWaveEffect, &LEDChaseEffect,
-    &solidRed, &solidOrange, &solidYellow, &solidGreen, &solidBlue, &solidIndigo, &solidViolet,
-    &LEDBreatheEffect,
-    &AlphaSquareEffect,
-    &StalkerEffect,
+    // &LEDRainbowEffect,
+    &LEDRainbowWaveEffect,
+    // &LEDChaseEffect,
+    // &solidRed, &solidOrange, &solidYellow, &solidGreen, &solidBlue, &solidIndigo, &solidViolet,
+    // &LEDBreatheEffect,
+    // &AlphaSquareEffect,
+    // &StalkerEffect,
     &NumLock,
     &Macros,
     &MouseKeys,
@@ -159,9 +161,9 @@ void setup() {
   NumLock.numPadLayer = NUMPAD_KEYMAP;
   FPS.FPSLayer = FPS_KEYMAP;
   AlphaSquare.color = { 255, 0, 0 };
-  LEDRainbowEffect.brightness(150);
+  // LEDRainbowEffect.brightness(150);
   LEDRainbowWaveEffect.brightness(150);
-  StalkerEffect.variant = STALKER(BlazingTrail);
+  // StalkerEffect.variant = STALKER(BlazingTrail);
   LEDOff.activate();
 }
 
